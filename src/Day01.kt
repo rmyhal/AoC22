@@ -15,7 +15,7 @@ fun main() {
   println(part2(input))
 }
 
-fun maxCalories(input: List<String>): Long {
+private fun maxCalories(input: List<String>): Long {
   var elfIndex = 0
   var elfCalories = 0L
   var maxCalories = 0L
@@ -32,7 +32,7 @@ fun maxCalories(input: List<String>): Long {
   return maxCalories
 }
 
-fun max3Calories(input: List<String>): Long {
+private fun max3Calories(input: List<String>): Long {
   val queue = PriorityQueue<Long>(3)
   var elfIndex = 0
   var elfCalories = 0L

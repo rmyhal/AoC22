@@ -1,5 +1,3 @@
-import Shape.Companion.toShape
-import Strategy.Companion.toStrategy
 import java.util.stream.Collectors
 import kotlin.IllegalArgumentException
 
@@ -17,28 +15,26 @@ fun main() {
   println(part2(input))
 }
 
-enum class Shape {
+private enum class Shape {
   ROCK,
   PAPER,
   SCISSORS;
-
-  companion object {
-    fun String.toShape(): Shape = when (this) {
-      "A", "X" -> ROCK
-      "B", "Y" -> PAPER
-      "C", "Z" -> SCISSORS
-      else -> throw IllegalArgumentException("unknown shape $this")
-    }
-  }
 }
 
-const val losePoints = 0
-const val drawPoints = 3
-const val winPoints = 6
-val shapePoints = mapOf(Shape.ROCK to 1, Shape.PAPER to 2, Shape.SCISSORS to 3)
+private fun String.toShape(): Shape = when (this) {
+  "A", "X" -> Shape.ROCK
+  "B", "Y" -> Shape.PAPER
+  "C", "Z" -> Shape.SCISSORS
+  else -> throw IllegalArgumentException("unknown shape $this")
+}
+
+private const val losePoints = 0
+private const val drawPoints = 3
+private const val winPoints = 6
+private val shapePoints = mapOf(Shape.ROCK to 1, Shape.PAPER to 2, Shape.SCISSORS to 3)
 
 // key = shape, value = a set of shapes which will lose to key
-val rulesMap = mapOf(
+private val rulesMap = mapOf(
   Shape.ROCK to setOf(Shape.SCISSORS),
   Shape.PAPER to setOf(Shape.ROCK),
   Shape.SCISSORS to setOf(Shape.PAPER),
@@ -77,7 +73,7 @@ private fun strategyGame(input: List<String>): Long {
   return totalScore
 }
 
-fun getWinShapeFor(`for`: Shape): Shape {
+private fun getWinShapeFor(`for`: Shape): Shape {
   return rulesMap.entries
     .stream()
     .filter { entry -> entry.value.contains(`for`) }
@@ -90,18 +86,16 @@ enum class Strategy {
   LOSE,
   DRAW,
   WIN;
-
-  companion object {
-    fun String.toStrategy(): Strategy = when (this) {
-      "X" -> LOSE
-      "Y" -> DRAW
-      "Z" -> WIN
-      else -> throw IllegalArgumentException("unknown strategy $this")
-    }
-  }
 }
 
-fun Strategy.toPoints() = when (this) {
+private fun String.toStrategy(): Strategy = when (this) {
+  "X" -> Strategy.LOSE
+  "Y" -> Strategy.DRAW
+  "Z" -> Strategy.WIN
+  else -> throw IllegalArgumentException("unknown strategy $this")
+}
+
+private fun Strategy.toPoints() = when (this) {
   Strategy.LOSE -> losePoints
   Strategy.DRAW -> drawPoints
   Strategy.WIN -> winPoints
