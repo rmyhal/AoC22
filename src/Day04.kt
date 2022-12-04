@@ -12,34 +12,17 @@ fun main() {
   println(part2(input))
 }
 
-private fun fullOverlap(input: List<String>): Int {
-  var sum = 0
+private fun fullOverlap(input: List<String>) =
   input
     .map { pair -> pair.split(",").map { it.split("-") } }
     .map { (first, second) -> first.map { it.toInt() }.toRange() to second.map { it.toInt() }.toRange() }
-    .forEach { (first, second) ->
-      if (first contains second || second contains first) {
-        sum++
-      }
-    }
-  return sum
-}
+    .count { (first, second) -> first contains second || second contains first }
 
-private fun partialOverlap(input: List<String>): Int {
-  var sum = 0
+private fun partialOverlap(input: List<String>) =
   input
     .map { pair -> pair.split(",").map { it.split("-") } }
-    .forEach { (first, second) ->
-      val firstRange = first.map { it.toInt() }.toRange()
-      val secondRange = second.map { it.toInt() }.toRange()
-
-      if (firstRange overlaps secondRange || secondRange overlaps firstRange) {
-        sum++
-      }
-    }
-
-  return sum
-}
+    .map { (first, second) -> first.map { it.toInt() }.toRange() to second.map { it.toInt() }.toRange() }
+    .count { (first, second) -> first overlaps second || second overlaps first }
 
 private fun List<Int>.toRange(): IntRange = IntRange(get(0), get(1))
 
