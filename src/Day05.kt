@@ -65,12 +65,16 @@ private fun crates(input: List<String>): Array<ArrayDeque<String>> {
 
 private fun List<String>.asCommands() = this
   .slice(commandsStartIndex until size)
-  .map { it.split(" ").toCommand() }
+  .map { it.toCommand() }
 
-private fun List<String>.toCommand() = Command(
-  from = get(3).toInt() - 1, // shift to adjust to input indexes
-  to = get(5).toInt() - 1, // shift to adjust to input indexes
-  count = get(1).toInt(),
-)
+private fun String.toCommand(): Command {
+  val regex = """move (\d+) from (\d+) to (\d+)""".toRegex()
+  val (count, from, to) = regex.matchEntire(this)!!.destructured
+  return Command(
+    from = from.toInt() - 1, // shift to adjust to input indexes
+    to = to.toInt() - 1, // shift to adjust to input indexes
+    count = count.toInt(),
+  )
+}
 
-data class Command(val from: Int, val to: Int, val count: Int)
+private data class Command(val from: Int, val to: Int, val count: Int)
