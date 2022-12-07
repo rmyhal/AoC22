@@ -13,11 +13,7 @@ fun main() {
 }
 
 private fun process(input: List<String>, markerSize: Int): Int {
-  val line = input[0]
-  for (i in 0 until line.length - markerSize) {
-    if (line.substring(i until i + markerSize).toSet().size == markerSize) {
-      return i + markerSize
-    }
-  }
-  throw IllegalArgumentException()
+  return input[0]
+    .windowed(markerSize)
+    .indexOfFirst { it.toSet().size == markerSize } + markerSize
 }
